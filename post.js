@@ -5,6 +5,7 @@ import PostCard from './postCard';
 class Post extends Component {
   constructor(props) {
     super(props);
+    postContext = this;
     this.state = {
       error: null,
       isLoaded: false,
@@ -14,7 +15,6 @@ class Post extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const userItem = navigation.getParam('useritem');
-    console.log(userItem);
     fetch("https://jsonplaceholder.typicode.com/posts?userId=" + userItem.id)
       .then(res => res.json())
       .then(
@@ -46,7 +46,7 @@ class Post extends Component {
         return(
           <View> 
           {posts.map(p =>(
-            <View>
+            <View key={p.id}>
               <PostCard key={p.id} post={p} />
             </View>
            ))}

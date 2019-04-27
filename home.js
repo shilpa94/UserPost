@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import { Button } from 'react-native';
 import Post from './post';
+import { Container, Header, Content, List, Title, ListItem, Left, Body, Right, Thumbnail, Icon } from 'native-base';
+import { Avatar} from 'react-native-elements';
+
 
 type Props = {};
 class Home extends Component {
@@ -11,7 +14,6 @@ class Home extends Component {
       error: null,
       isLoaded: false,
       user: [],
-      open: false,
     };
   }
   componentDidMount() {
@@ -42,34 +44,45 @@ class Home extends Component {
       return <Text>Loading...</Text>;
     } else {
         return (
-          <View style={styles.container}>
-            {user.map(u =>(
-              <View key={u.id}>
-                <Text style={styles.welcome}>{u.name}</Text>
-                <Button  title="post"
-                  onPress={() => this.props.navigation.navigate('Post', 
-                  { useritem: u})}>
-                </Button>
-              </View>
+           <Container>
+        <Header noLeft>
+          <Left/>
+          <Body>
+            <Title>User Details</Title>
+          </Body>
+        </Header>
+     
+          <List>
+          {user.map(u =>(
+            <ListItem avatar key={u.id}>
+              <Avatar rounded title={(u.name).match(/\b(\w)/g).join('')} overlayContainerStyle={{backgroundColor: 'blue'}} />
+              <Body>
+                <Text>{u.name}</Text>
+              </Body>
+              <Right>
+                <Icon name="arrow-forward" onPress={() => this.props.navigation.navigate('Post', { useritem: u})}/>
+              </Right>
+            </ListItem>
             ))}
-          </View>
+          </List>
+           </Container>
         );
       }
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#F5FCFF',
+//   },
+//   welcome: {
+//     fontSize: 20,
+//     textAlign: 'center',
+//     margin: 10,
+//   },
+// });
 
 export default Home;

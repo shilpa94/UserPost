@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import Home from './home';
 import Post from './post';
+import Comments from './comments';
 
 const RootStack = createStackNavigator(
   {
@@ -11,6 +12,9 @@ const RootStack = createStackNavigator(
     },
     Post: {
       screen: Post,
+    },
+    Comments: {
+      screen: Comments,
     },
   },
   {
