@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {Text, View, FlatList} from 'react-native';
+import { Container, Header, Content, ListItem, Body, Title, List, Left } from 'native-base';
 import PostCard from './postCard';
 
 class Post extends Component {
@@ -12,6 +13,7 @@ class Post extends Component {
       posts: [],
     };
   }
+  
   componentDidMount() {
     const { navigation } = this.props;
     const userItem = navigation.getParam('useritem');
@@ -32,27 +34,43 @@ class Post extends Component {
           });
         }
       )
-    }
+  }
+
+  renderPost ({ item }) {
+    return (
+      <View key={item.id} style={{margin: 6}}>
+        <PostCard key={item.id} post={item} />
+      </View>
+    )
+  }
 
   render() {
-    // const { navigation } = this.props;
-    // const userItem = navigation.getParam('useritem');
-    const { error, isLoaded, posts, comments } = this.state;
+    const { error, isLoaded, posts } = this.state;
     if (error) {
       return <Text>Error: {error.message}</Text>;
     } else if (!isLoaded) {
       return <Text>Loading...</Text>;
     } else {
-        return(
-          <View> 
-          {posts.map(p =>(
-            <View key={p.id}>
-              <PostCard key={p.id} post={p} />
-            </View>
-           ))}
-          </View>
-        );
-      }
+      return(
+        <Container>
+          <Header noLeft>
+            <Left/>
+              <Body>
+              <Title>Posts</Title>
+            </Body>
+          </Header>
+          <Content>
+            <List>
+              <FlatList
+                data={posts}
+                renderItem={this.renderPost}
+                keyExtractor={item => item.id.toString()}
+              />
+            </List>
+          </Content>
+        </Container>
+      );
+    }
   }
 }
  export default Post;
